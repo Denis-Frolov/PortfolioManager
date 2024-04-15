@@ -47,7 +47,7 @@ namespace AssetDetailsApi
             // Use UTC for default dates
             if (startDate == default)
             {
-                startDate = DateTime.UtcNow.Date.AddMonths(-6); // Default to six months ago
+                startDate = DateTime.UtcNow.Date.AddMonths(-3); // Default to 3 months ago
             }
 
             if (endDate == default)
