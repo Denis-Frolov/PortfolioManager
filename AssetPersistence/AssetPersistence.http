@@ -1,0 +1,6 @@
+@AssetPersistence_HostAddress = http://localhost:5010
+
+GET {{AssetPersistence_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
