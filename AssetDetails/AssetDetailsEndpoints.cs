@@ -2,7 +2,7 @@
 using Microsoft.OpenApi.Any;
 using Microsoft.OpenApi.Models;
 
-namespace AssetDetails
+namespace AssetDetailsApi
 {
     internal static class AssetDetailsEndpoints
     {

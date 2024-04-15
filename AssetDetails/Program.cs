@@ -1,7 +1,7 @@
 using DomainObjects.Middleware;
 using DomainObjects.Utils;
 
-namespace AssetDetails
+namespace AssetDetailsApi
 {
     public class Program
     {

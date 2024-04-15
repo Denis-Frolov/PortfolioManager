@@ -1,4 +1,4 @@
-﻿namespace AssetPersistence
+﻿namespace AssetPersistenceApi
 {
     public class Asset
     {

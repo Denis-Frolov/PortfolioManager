@@ -2,7 +2,7 @@
 using System.Text.Json;
 using YahooFinanceApi;
 
-namespace AssetDetails
+namespace AssetDetailsApi
 {
     public interface IYahooService
     {

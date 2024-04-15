@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 
-namespace AssetPersistence
+namespace AssetPersistenceApi
 {
     public class AssetDb : DbContext
     {

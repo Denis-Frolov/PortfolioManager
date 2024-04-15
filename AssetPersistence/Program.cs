@@ -3,7 +3,7 @@ using DomainObjects.Middleware;
 using DomainObjects.Utils;
 using Microsoft.EntityFrameworkCore;
 
-namespace AssetPersistence
+namespace AssetPersistenceApi
 {
     public class Program
     {
@@ -49,7 +49,6 @@ namespace AssetPersistence
             app.MapAssetPersistenceEndpoints();
 
             app.Run();
-
         }
     }
 }

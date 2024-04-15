@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 
-namespace AssetPersistence
+namespace AssetPersistenceApi
 {
     internal static class AssetPersistenceEndpoints
     {
