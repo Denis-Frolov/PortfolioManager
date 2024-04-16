@@ -19,7 +19,8 @@ namespace AssetDetailsApi
             {
                 opt.AddPolicy("CorsPolicy", policy =>
                 {
-                    policy.AllowAnyHeader().AllowAnyMethod().WithOrigins("http://localhost:3100");
+                    policy.AllowAnyHeader().AllowAnyMethod()
+                    .WithOrigins("http://localhost:3000", "http://localhost:3100");
                 });
             });
 

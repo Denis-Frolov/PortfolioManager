@@ -10,6 +10,7 @@ export default defineConfig({
     federation({
       name: 'assetWebUi',
       remotes: {
+        assetDetails: 'http://localhost:3100/assets/remoteEntry.js',
         assetPersistence: 'http://localhost:3200/assets/remoteEntry.js',
       },
       shared: ['react', 'react-dom'],
