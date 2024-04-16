@@ -5,24 +5,69 @@ import {
   GridColumn,
   Grid,
   Segment,
-  Placeholder,
-  PlaceholderImage,
   List,
   ListItem,
   Button,
+  ListContent,
+  ListHeader,
 } from "semantic-ui-react";
+import { Observable } from "windowed-observable";
+import axios from "axios";
+import { PortfolioAsset } from "./models/portfolioAsset";
+
+const assetSymbolObservable = new Observable("assetSymbol");
 
 function App() {
-  const [loading, setLoading] = useState<boolean>(false);
   const [symbol, setSymbol] = useState<string>("");
+  const [portfolio, setPortfolio] = useState<PortfolioAsset[]>([]);
 
+  const handleNewMessage = (symbol: string) => {
+    setSymbol(symbol);
+  };
+
+  // Loading portfolio from the database for the first time
+  // And setting symbol observable
   useEffect(() => {
-    setSymbol("");
-    // Check if symbol is truthy before making the API call
+    axios
+      .get<PortfolioAsset[]>("http://localhost:5050/portfolio")
+      .then((response: any) => {
+        setPortfolio(response.data);
+      });
+
+    assetSymbolObservable.subscribe(handleNewMessage);
+
+    return () => {
+      assetSymbolObservable.unsubscribe(handleNewMessage);
+    };
+  }, []);
+
+  // Add new asset to portfolio
+  useEffect(() => {
     if (symbol) {
-      setLoading(false); // Set loading state to true before making the request
+      axios
+        .post("http://localhost:5050/portfolio", { symbol })
+        .then((response: any) => {
+          // Update the portfolio state based on the previous state
+          setPortfolio((prevPortfolio) => [...prevPortfolio, response.data]);
+        })
+        .catch((error) => {
+          console.error("Error fetching asset:", error);
+        });
     }
-  }, []); // Run useEffect whenever the symbol state changes
+  }, [symbol]);
+
+  // Delete asset from portfolio
+  function handleDeletePortfolioAsset(id: number) {
+    axios
+      .delete(`http://localhost:5050/portfolio/${id}`)
+      .then(() => {
+        setPortfolio([...portfolio.filter((x) => x.id !== id)]);
+      })
+      .catch((error) => {
+        console.error("Error deleting asset:", error);
+      });
+  }
+
   return (
     <>
       <Segment>
@@ -30,26 +75,30 @@ function App() {
         <Grid>
           <GridRow>
             <GridColumn>
-              {loading ? (
-                <Placeholder fluid>
-                  <PlaceholderImage />
-                </Placeholder>
-              ) : (
-                <div>
-                  <List divided relaxed size="big">
-                    <ListItem>
-                      1 - AAPL
-                      <Button
-                        circular
-                        icon="trash"
-                        basic
-                        style={{ marginLeft: "10px" }}
-                      />
+              <div>
+                <List divided relaxed size="big">
+                  {portfolio.map((asset, i) => (
+                    <ListItem key={asset.id}>
+                      <ListContent>
+                        <ListHeader>
+                          <span style={{ paddingRight: "10px" }}>
+                            <Button
+                              circular
+                              icon="trash"
+                              basic
+                              size="tiny"
+                              onClick={() =>
+                                handleDeletePortfolioAsset(asset.id)
+                              }
+                            />
+                          </span>
+                          {i + 1} - {asset.symbol}
+                        </ListHeader>
+                      </ListContent>
                     </ListItem>
-                    <ListItem>2 MSFT</ListItem>
-                  </List>
-                </div>
-              )}
+                  ))}
+                </List>
+              </div>
             </GridColumn>
           </GridRow>
         </Grid>

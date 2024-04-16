@@ -21,6 +21,9 @@ import {
   PlaceholderLine,
 } from "semantic-ui-react";
 import { AssetHistory } from "./AssetHistory";
+import { Observable } from "windowed-observable";
+
+const assetSymbolObservable = new Observable<string>("assetSymbol");
 
 export function AssetDetails() {
   const [asset, setAsset] = useState<Asset | null>(null);
@@ -54,7 +57,9 @@ export function AssetDetails() {
   }, [symbol]); // Run useEffect whenever the symbol state changes
 
   function handleAddToPortfolio(): void {
-    throw new Error("Function not implemented.");
+    if (symbol) {
+      assetSymbolObservable.publish(symbol);
+    }
   }
 
   return (
