@@ -1,12 +1,13 @@
-import { useState } from "react";
+import { lazy } from "react";
 import "./App.css";
 
-function App() {
-  const [count, setCount] = useState(0);
+const AssetPersistence = lazy(() => import("assetPersistence/App"));
 
+function App() {
   return (
     <>
       <h1>WEB_UI</h1>
+      <AssetPersistence />
     </>
   );
 }
