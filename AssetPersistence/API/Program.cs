@@ -24,6 +24,14 @@ namespace AssetPersistenceApi
                 config.Title = "PortfolioAPI v1";
                 config.Version = "v1";
             });
+            builder.Services.AddCors(opt =>
+            {
+                opt.AddPolicy("CorsPolicy", policy =>
+                {
+                    policy.AllowAnyHeader().AllowAnyMethod()
+                    .WithOrigins("http://localhost:3000", "http://localhost:3200");
+                });
+            });
 
 
             builder.Services.AddSingleton<JsonSerializerOptionsFactory>();
@@ -32,6 +40,7 @@ namespace AssetPersistenceApi
 
             // Configure the HTTP request pipeline.
             app.UseMiddleware<ExceptionMiddleware>();
+            app.UseCors("CorsPolicy");
 
             if (app.Environment.IsDevelopment())
             {
@@ -44,7 +53,7 @@ namespace AssetPersistenceApi
                     config.DocExpansion = "list";
                 });
             }
-            
+
             app.UseAuthorization();
             app.MapAssetPersistenceEndpoints();
 
