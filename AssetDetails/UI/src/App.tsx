@@ -2,11 +2,7 @@ import "./App.css";
 import { AssetDetails } from "./AssetDetails";
 
 function App() {
-  return (
-    <>
-      <AssetDetails />
-    </>
-  );
+  return <AssetDetails />;
 }
 
 export default App;
